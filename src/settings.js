@@ -49,8 +49,9 @@ function handleConfigOption(input) {
     }
 
     if (input.includes("${env:")) {
-        for (let env = input.match(/\${env:([^}]+)}/)?.[1]; env; env = input.match(/\${env:([^}]+)}/)?.[1]) {
-            input = input.replaceAll(`\${env:${env}}`, process.env[env] ?? "");
+        let match;
+        while ((match = input.match(/\${env:([^}]+)}/)?.[1])) {
+            input = input.replaceAll(`\${env:${match}}`, process.env[match] ?? "");
         }
     }
     return input;
